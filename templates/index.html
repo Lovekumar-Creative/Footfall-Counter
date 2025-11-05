@@ -37,12 +37,7 @@
       transition: 0.3s;
       box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
     }
-    .btn-play { background-color: #22c55e; color: white; }
-    .btn-play:hover { background-color: #16a34a; transform: scale(1.05); }
-    .btn-stop { background-color: #ef4444; color: white; }
-    .btn-stop:hover { background-color: #dc2626; transform: scale(1.05); }
-    .btn-restart { background-color: #f59e0b; color: white; }
-    .btn-restart:hover { background-color: #d97706; transform: scale(1.05); }
+    
     .btn-toggle { background-color: #3b82f6; color: white; }
     .btn-toggle:hover { background-color: #2563eb; transform: scale(1.05); }
     .btn-download { background-color: #9333ea; color: white; }
@@ -51,11 +46,9 @@
 </head>
 <body>
   <h1>🎥 Footfall Counter & Trajectory Visualizer</h1>
-  <p>Auto-plays on load — you can pause, restart, and toggle between real and heatmap view</p>
+  <p>we can toggle between real and heatmap view and download</p>
 
   <div class="d-flex justify-content-center flex-wrap">
-    <button class="btn-custom btn-stop" onclick="pauseVideo()">⏸ Pause</button>
-    <button class="btn-custom btn-restart" onclick="restartVideo()">🔁 Restart</button>
     <button class="btn-custom btn-toggle" id="toggleViewBtn" onclick="toggleView()">🔥 Switch to Heatmap</button>
     <a href="/download" class="btn-custom btn-download">⬇ Download Video</a>
   </div>
@@ -67,16 +60,6 @@
   <script>
     const videoFeed = document.getElementById('videoFeed');
     let currentView = 'real';
-
-    function pauseVideo() {
-      fetch('/pause', { method: 'POST' });
-      videoFeed.src = '';
-    }
-
-    function restartVideo() {
-      fetch('/restart', { method: 'POST' });
-      videoFeed.src = '/video_feed';
-    }
 
     function toggleView() {
       fetch('/toggle_view', { method: 'POST' })
