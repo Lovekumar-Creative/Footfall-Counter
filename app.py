@@ -32,11 +32,18 @@ restart_flag = False
 
 
 def generate_frames():
-    global paused, restart_flag, show_heatmap
+    global show_heatmap
     cap = cv2.VideoCapture(video_path)
     if not cap.isOpened():
         print("Error opening video.")
         return
+    
+    # --- Download / Save setup ---
+    os.makedirs('static', exist_ok=True)  # ensure static folder exists
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    out = cv2.VideoWriter(output_path, fourcc, 20.0, (1020, 600))  # fps=20, size same as resized frame
+    # -------------------------------
+
     count = 0
     while True:
 
@@ -126,11 +133,12 @@ def generate_frames():
             )
             frame = cv2.addWeighted(frame, 0.7, heat_display, 0.3, 0)
 
+        out.write(frame)  # Save processed frame to video file
         _, buffer = cv2.imencode('.jpg', frame)
         frame_data = buffer.tobytes()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame_data + b'\r\n')
-
+    out.release()  # finalize and close the output video
     cap.release()
 
 # UI Parts
@@ -157,6 +165,7 @@ def toggle_view():
 def download():
     directory = os.path.join(app.root_path, 'static')
     return send_from_directory(directory, 'peoplecount_output.mp4', as_attachment=True)
+
 
 
 if __name__ == '__main__':
