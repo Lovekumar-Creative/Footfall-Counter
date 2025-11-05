@@ -12,7 +12,6 @@ The primary script is `app.py`. A YOLO model file (`yolo11n.pt`) and a sample vi
 - Entry/exit counting based on two polygonal areas.
 - Trajectory visualization (drawn tracks for tracked persons).
 - Heatmap overlay showing where people appear most frequently.
-- Playback control endpoints: pause, play, restart.
 - Toggle between real camera view and heatmap overlay.
 - Download endpoint for the output video (if generated at `static/peoplecount_output.mp4`).
 
@@ -65,9 +64,6 @@ This project requires Python 3.8+ and the following Python packages (examples):
 
 The front-end (`index.html`) is expected to provide buttons that call the control endpoints:
 
-- Pause: POST `/pause`
-- Play: POST `/play`
-- Restart: POST `/restart`
 - Toggle view (heatmap / real): POST `/toggle_view`
 - Download output: GET `/download`
 
